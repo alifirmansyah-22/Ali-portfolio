@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mochammad Ali Firmmansyah</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            color: #1e1e1e;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Admin Gear Icon */
+        .admin-gear {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #1e1e1e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .admin-gear:hover {
+            transform: rotate(90deg);
+            background: #333;
+        }
+
+        /* Admin Login Modal */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .admin-login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: slideUp 0.5s ease;
+        }
+
+        .admin-login-box h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1e1e1e;
+        }
+
+        .admin-login-box input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-login-box input:focus {
+            border-color: #1e1e1e;
+            outline: none;
+        }
+
+        .admin-login-box button {
+            width: 100%;
+            padding: 1rem;
+            background: #1e1e1e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-login-box button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #1e1e1e;
+        }
+
+        .error-message {
+            color: #ff4444;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            z-index: 1999;
+            transition: right 0.5s ease;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        .admin-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .admin-panel-header h3 {
+            font-size: 1.5rem;
+            color: #1e1e1e;
+        }
+
+        .close-panel {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .close-panel:hover {
+            color: #1e1e1e;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .upload-section h4 {
+            margin-bottom: 1rem;
+            color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a4a4a;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1e1e1e;
+            outline: none;
+        }
+
+        .file-upload {
+            border: 2px dashed #c0c0c0;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload:hover {
+            border-color: #1e1e1e;
+            background: rgba(0,0,0,0.02);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload p {
+            color: #666;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .image-preview.active {
+            display: block;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            border: 2px solid #1e1e1e;
+        }
+
+        .file-info {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: #e8f4fd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #1e1e1e;
+            display: none;
+        }
+
+        .file-info.active {
+            display: block;
+        }
+
+        .file-info i {
+            margin-right: 0.5rem;
+            color: #1e1e1e;
+        }
+
+        #projectFileInput,
+        #projectImageInput {
+            display: none;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #1e1e1e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .upload-btn:hover:not(:disabled) {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .upload-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .projects-list {
+            margin-top: 2rem;
+        }
+
+        .project-item {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .project-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-info h5 {
+            color: #1e1e1e;
+            margin-bottom: 0.2rem;
+            font-size: 1rem;
+        }
+
+        .project-info p {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .project-info small {
+            color: #999;
+            font-size: 0.7rem;
+        }
+
+        .project-badges {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.3rem;
+        }
+
+        .badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            background: #1e1e1e;
+            color: white;
+        }
+
+        .badge.drive {
+            background: #0F9D58;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .project-actions button {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.3rem;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .project-actions button:hover {
+            color: #ff0000;
+            background: rgba(255,0,0,0.1);
+            transform: scale(1.1);
+        }
+
+        .drive-link {
+            display: inline-block;
+            color: #0F9D58;
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .drive-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f0f0;
+            border-top: 3px solid #1e1e1e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #1e1e1e;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 30, 30, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .navbar.scrolled {
+            padding: 1rem 5%;
+            background: #ffffff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e1e1e;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1e1e1e;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #1e1e1e;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #1e1e1e;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .hero-content {
+            flex: 1;
+            color: #1e1e1e;
+            z-index: 2;
+        }
+
+        .hero-content .greeting {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            color: #4a4a4a;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            color: #1e1e1e;
+        }
+
+        .hero-content .highlight {
+            background: none;
+            color: #1e1e1e;
+            border-bottom: 4px solid #d4d4d4;
+        }
+
+        .hero-content .profession {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            color: #4a4a4a;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            color: #3a3a3a;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #1e1e1e;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #3a3a3a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1e1e1e;
+            border: 2px solid #1e1e1e;
+        }
+
+        .btn-secondary:hover {
+            background: #1e1e1e;
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-frame {
+            width: 400px;
+            height: 400px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: #d4d4d4;
+            animation: morphing 10s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-frame:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Floating Shapes dengan Foto */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+        }
+
+        .shape:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .shape img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .shape:hover img {
+            transform: scale(1.2);
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 10%;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            color: #1e1e1e;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #b0b0b0;
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1e1e1e;
+        }
+
+        .about-text p {
+            margin-bottom: 2rem;
+            color: #4a4a4a;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            padding: 0.8rem 1.5rem;
+            background: #e0e0e0;
+            color: #1e1e1e;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.1);
+            background: #c0c0c0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: #eaeaea;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #1e1e1e;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #5a5a5a;
+            font-size: 1.1rem;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 10%;
+            background: #f0f0f0;
+        }
+
+        .portfolio-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            background: #ffffff;
+            color: #1e1e1e;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #1e1e1e;
+            color: #ffffff;
+            transform: translateY(-2px);
+            border-color: #1e1e1e;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            aspect-ratio: 4/3;
+            background: #fff;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            filter: grayscale(40%);
+        }
+
+        .portfolio-item:hover .portfolio-image {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 30, 30, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            transition: all 0.3s ease 0.1s;
+        }
+
+        .portfolio-overlay p {
+            margin-bottom: 1rem;
+            transform: translateY(20px);
+            transition: all 0.3s ease 0.2s;
+        }
+
+        .portfolio-links {
+            display: flex;
+            gap: 1rem;
+            transform: translateY(20px);
+            transition: all 0.3s ease 0.3s;
+        }
+
+        .portfolio-item:hover .portfolio-overlay h3,
+        .portfolio-item:hover .portfolio-overlay p,
+        .portfolio-item:hover .portfolio-overlay .portfolio-links {
+            transform: translateY(0);
+        }
+
+        .portfolio-links a {
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #1e1e1e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-links a:hover {
+            transform: scale(1.1);
+            background: #d4d4d4;
+            color: #1e1e1e;
+        }
+
+        .drive-badge {
+            display: inline-block;
+            background: #0F9D58;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 10%;
+            background: #ffffff;
+            color: #1e1e1e;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1e1e1e;
+        }
+
+        .contact-info p {
+            color: #4a4a4a;
+        }
+
+        .contact-details {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: #eaeaea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #1e1e1e;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            color: #3a3a3a;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #eaeaea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e1e1e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #1e1e1e;
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background: #f5f5f5;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid #d4d4d4;
+            border-radius: 5px;
+            color: #1e1e1e;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1e1e1e;
+            background: #ffffff;
+        }
+
+        .form-control::placeholder {
+            color: #9a9a9a;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #1e1e1e;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #3a3a3a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e1e1e;
+            color: #f0f0f0;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes morphing {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+            50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+            75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-25px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content h1 { font-size: 3rem; }
+            .profile-frame { width: 300px; height: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: #ffffff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: left 0.3s ease;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { color: #1e1e1e; font-size: 1.2rem; }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 100px;
+            }
+            .hero-content h1 { font-size: 2.5rem; }
+            .cta-buttons { justify-content: center; }
+            .about-content,
+            .contact-content { grid-template-columns: 1fr; gap: 2rem; }
+            .about-stats { order: -1; }
+            .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2rem; }
+            .profile-frame { width: 250px; height: 250px; }
+            .section-title { font-size: 2rem; }
+            .stat-number { font-size: 2rem; }
+        }
+
+        /* Loading Animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-wrapper.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #1e1e1e;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            width: 50px;
+            height: 50px;
+            background: #1e1e1e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #3a3a3a;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Admin Gear Icon -->
+    <div class="admin-gear" id="adminGear">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-login-box">
+            <i class="fas fa-times close-modal" id="closeModal"></i>
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <input type="password" id="adminPassword" placeholder="Masukkan Password" onkeypress="handleKeyPress(event)">
+            <button onclick="checkPassword()">Login</button>
+            <div class="error-message" id="loginError"></div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-header">
+            <h3><i class="fas fa-cog"></i> Admin Panel</h3>
+            <i class="fas fa-times close-panel" id="closePanel"></i>
+        </div>
+
+        <!-- Upload Project Section -->
+        <div class="upload-section">
+            <h4><i class="fas fa-upload"></i> Upload Project Baru</h4>
+            
+            <div class="form-group">
+                <label>Nama Project</label>
+                <input type="text" id="projectName" placeholder="Contoh: Website E-commerce">
+            </div>
+
+            <div class="form-group">
+                <label>Kategori</label>
+                <select id="projectCategory">
+                    <option value="web">Web Design</option>
+                    <option value="graphic">Graphic Design</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi Project</label>
+                <textarea id="projectDesc" placeholder="Deskripsi singkat project..." rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Gambar Project (untuk tampilan portofolio)</label>
+                <div class="file-upload" id="imageUploadArea">
+                    <i class="fas fa-image"></i>
+                    <p>Klik untuk upload gambar project</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">Format: JPG, PNG, GIF (Max 5MB)</p>
+                </div>
+                
+                <input type="file" id="projectImageInput" accept="image/*">
+                
+                <div class="image-preview" id="imagePreview">
+                    <img src="" alt="Preview" id="previewImage">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Upload File Project (ke Google Drive)</label>
+                <div class="file-upload" id="fileUploadArea">
+                    <i class="fab fa-google-drive"></i>
+                    <p>Klik untuk upload file ke Google Drive</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">Mendukung: Gambar, PDF, ZIP, Dokumen</p>
+                </div>
+                
+                <input type="file" id="projectFileInput" accept="*/*">
+                
+                <div class="file-info" id="fileInfo">
+                    <i class="fas fa-file"></i> <span id="fileName">Tidak ada file dipilih</span>
+                </div>
+            </div>
+            
+            <div class="loading-spinner" id="uploadSpinner">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem;">Mengupload project...</p>
+            </div>
+
+            <div id="uploadResult" style="margin-top: 1rem;"></div>
+
+            <button class="upload-btn" id="uploadBtn" onclick="uploadProject()" disabled>
+                <i class="fas fa-save"></i> Simpan Project
+            </button>
+        </div>
+
+        <div class="projects-list" id="projectsList">
+            <h4><i class="fas fa-folder"></i> Project Tersimpan</h4>
+            <!-- Projects will be listed here -->
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">About Me?</div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Beranda</a>
+            <a href="#about">Tentang</a>
+            <a href="#portfolio">Portofolio</a>
+            <a href="#contact">Kontak</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="floating-shapes">
+            <div class="shape shape-1">
+                <img src="https://images.unsplash.com/photo-1494790108777-296ef5a4ecf8?w=400&h=400&fit=crop" alt="Profile 1">
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <h1 data-aos="fade-up" data-aos-delay="200">
+                <span class="highlight">Mochammad Ali Firmansyah</span><br>
+                Kreatif Desainer & Developer
+            </h1>
+            <div class="profession" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-code"></i> Frontend Developer
+            </div>
+            <p class="description" data-aos="fade-up" data-aos-delay="600">
+                Saya menciptakan pengalaman digital yang menarik dan fungsional. 
+                Dengan kombinasi desain kreatif dan teknologi terkini.
+            </p>
+            <div class="cta-buttons" data-aos="fade-up" data-aos-delay="800">
+                <a href="#portfolio" class="btn btn-primary">Lihat Karya</a>
+                <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
+            </div>
+        </div>
+        <div class="hero-image" data-aos="fade-left" data-aos-delay="400">
+            <div class="profile-frame">
+                <img src="image/profile.jpeg" alt="John Doe">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2 class="section-title" data-aos="fade-up">Tentang Saya</h2>
+        <div class="about-content">
+            <div class="about-text" data-aos="fade-right">
+                <h3>Siapa Saya?</h3>
+                <p>
+                    Saya adalah seorang desainer dan developer kreatif dengan pengalaman lebih dari 5 tahun 
+                    dalam menciptakan solusi digital yang inovatif. Saya percaya bahwa desain yang baik 
+                    adalah perpaduan antara estetika dan fungsionalitas.
+                </p>
+                <p>
+                    Dengan latar belakang di bidang desain grafis dan pengembangan web, saya mampu 
+                    menghadirkan produk digital yang tidak hanya indah dipandang tapi juga mudah digunakan.
+                </p>
+                <div class="skills">
+                    <span class="skill-tag">HTML 5</span>
+                    <span class="skill-tag">CSS 3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Adobe Illustrator</span>
+                </div>
+            </div>
+            <div class="about-stats" data-aos="fade-left">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="5">5</div>
+                    <div class="stat-label">Proyek Selesai</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="2">2</div>
+                    <div class="stat-label">Tahun Pengalaman</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="section-title" data-aos="fade-up">Portofolio</h2>
+        <div class="portfolio-filters" data-aos="fade-up">
+            <button class="filter-btn active" data-filter="all">Semua</button>
+            <button class="filter-btn" data-filter="web">Web Design</button>
+            <button class="filter-btn" data-filter="graphic">Graphic Design</button>
+        </div>
+        <div class="portfolio-grid" id="portfolioGrid">
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="section-title" data-aos="fade-up">Hubungi Saya</h2>
+        <div class="contact-content">
+            <div class="contact-info" data-aos="fade-right">
+                <h3>Mari Bekerjasama</h3>
+                <p style="margin-bottom: 2rem;">Ada proyek menarik? Jangan ragu untuk menghubungi saya.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-text">081936001745</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">af8072580@gmail.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-text">NGANJUK, JAWA TIMUR</div>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/alifirmansyah-22" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/malifrmnsyh?igsh=aGF1OGJhYjA5Z29s" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="contact-form" data-aos="fade-left">
+                <form id="contactForm">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Nama Lengkap" required></div>
+                    <div class="form-group"><input type="email" class="form-control" placeholder="Email" required></div>
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Subjek"></div>
+                    <div class="form-group"><textarea class="form-control" placeholder="Pesan" required></textarea></div>
+                    <button type="submit" class="submit-btn">Kirim Pesan</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Mochammad Ali Firmansyah</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // AOS Init
+        AOS.init({ duration: 1000, once: true, offset: 100 });
+
+        // Loading
+        window.addEventListener('load', function() {
+            setTimeout(() => document.getElementById('loader').classList.add('fade-out'), 1000);
+            loadProjects();
+            loadPortfolioItems();
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('show', window.scrollY > 500);
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Admin Panel Logic
+        const adminGear = document.getElementById('adminGear');
+        const adminModal = document.getElementById('adminModal');
+        const adminPanel = document.getElementById('adminPanel');
+        const closeModal = document.getElementById('closeModal');
+        const closePanel = document.getElementById('closePanel');
+        const loginError = document.getElementById('loginError');
+
+        // Upload elements
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const projectImageInput = document.getElementById('projectImageInput');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const projectFileInput = document.getElementById('projectFileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const projectName = document.getElementById('projectName');
+        const projectCategory = document.getElementById('projectCategory');
+        const projectDesc = document.getElementById('projectDesc');
+        const uploadSpinner = document.getElementById('uploadSpinner');
+        const uploadResult = document.getElementById('uploadResult');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+
+        // State untuk menyimpan file
+        let selectedImageFile = null;
+        let selectedProjectFile = null;
+
+        // Admin password
+        const ADMIN_PASSWORD = 'admin123';
+
+        adminGear.addEventListener('click', () => {
+            adminModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            adminModal.classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+            loginError.textContent = '';
+        });
+
+        closePanel.addEventListener('click', () => {
+            adminPanel.classList.remove('active');
+        });
+
+        window.checkPassword = function() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                adminModal.classList.remove('active');
+                adminPanel.classList.add('active');
+                document.getElementById('adminPassword').value = '';
+                loginError.textContent = '';
+            } else {
+                loginError.textContent = 'Password salah!';
+            }
+        };
+
+        window.handleKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        };
+
+        // ===== UPLOAD GAMBAR PROJECT =====
+        imageUploadArea.addEventListener('click', () => {
+            projectImageInput.click();
+        });
+
+        projectImageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                selectedImageFile = file;
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Ukuran gambar maksimal 5MB!');
+                    this.value = '';
+                    selectedImageFile = null;
+                    return;
+                }
+
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Hanya file gambar yang diperbolehkan!');
+                    this.value = '';
+                    selectedImageFile = null;
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    imagePreview.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+
+                imageUploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: #28a745;"></i>
+                    <p>Gambar siap: ${file.name}</p>
+                    <p style="font-size: 0.8rem;">Klik untuk ganti gambar</p>
+                `;
+                
+                checkUploadButton();
+            }
+        });
+
+        // ===== UPLOAD FILE PROJECT KE GOOGLE DRIVE =====
+        fileUploadArea.addEventListener('click', () => {
+            projectFileInput.click();
+        });
+
+        projectFileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                selectedProjectFile = file;
+                fileName.textContent = file.name;
+                fileInfo.classList.add('active');
+                
+                fileUploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: #28a745;"></i>
+                    <p>File siap: ${file.name}</p>
+                    <p style="font-size: 0.8rem;">Klik untuk ganti file</p>
+                `;
+                
+                checkUploadButton();
+            }
+        });
+
+        // Check if upload button should be enabled
+        function checkUploadButton() {
+            if (projectName.value && projectDesc.value && selectedImageFile && selectedProjectFile) {
+                uploadBtn.disabled = false;
+            } else {
+                uploadBtn.disabled = true;
+            }
+        }
+
+        [projectName, projectDesc].forEach(field => {
+            field.addEventListener('input', checkUploadButton);
+        });
+
+        // ===== UPLOAD PROJECT =====
+        window.uploadProject = async function() {
+            if (!projectName.value || !projectDesc.value || !selectedImageFile || !selectedProjectFile) {
+                alert('Lengkapi semua field dan pilih gambar serta file project!');
+                return;
+            }
+
+            uploadSpinner.classList.add('active');
+            uploadBtn.disabled = true;
+
+            try {
+                // Simulasi upload file project ke Google Drive
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Gunakan link folder Google Drive yang sudah ditentukan
+                const folderLink = 'https://drive.google.com/drive/folders/15d7kCq41j3SYmYfTfemgW5PJtW6kRa27?usp=sharing';
+                
+                // Buat nama file untuk ditampilkan
+                const projectFileName = selectedProjectFile.name;
+                const fileSize = (selectedProjectFile.size / 1024).toFixed(2) + ' KB';
+                
+                // Baca gambar project sebagai base64
+                const imageReader = new FileReader();
+                imageReader.onload = function(e) {
+                    const imageBase64 = e.target.result;
+                    
+                    // Save project data
+                    const projectData = {
+                        id: Date.now(),
+                        name: projectName.value,
+                        category: projectCategory.value,
+                        description: projectDesc.value,
+                        image: imageBase64,
+                        driveLink: folderLink,
+                        projectFileName: projectFileName,
+                        projectFileSize: fileSize,
+                        date: new Date().toLocaleDateString('id-ID')
+                    };
+                    
+                    // Save to localStorage
+                    let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+                    projects.push(projectData);
+                    localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+                    
+                    uploadResult.innerHTML = `
+                        <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 5px;">
+                            <i class="fas fa-check-circle"></i> Project berhasil disimpan!<br>
+                            <small>File project akan disimpan di folder Google Drive:</small><br>
+                            <a href="${folderLink}" target="_blank" style="color: #0F9D58; text-decoration: none; display: inline-block; margin-top: 0.5rem;">
+                                <i class="fab fa-google-drive"></i> Buka Folder Drive
+                            </a>
+                        </div>
+                    `;
+                    
+                    // Reset form
+                    projectName.value = '';
+                    projectDesc.value = '';
+                    projectCategory.value = 'web';
+                    
+                    // Reset image upload
+                    projectImageInput.value = '';
+                    selectedImageFile = null;
+                    imagePreview.classList.remove('active');
+                    imageUploadArea.innerHTML = `
+                        <i class="fas fa-image"></i>
+                        <p>Klik untuk upload gambar project</p>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Format: JPG, PNG, GIF (Max 5MB)</p>
+                    `;
+                    
+                    // Reset file upload
+                    projectFileInput.value = '';
+                    selectedProjectFile = null;
+                    fileInfo.classList.remove('active');
+                    fileUploadArea.innerHTML = `
+                        <i class="fab fa-google-drive"></i>
+                        <p>Klik untuk upload file ke Google Drive</p>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Mendukung: Gambar, PDF, ZIP, Dokumen</p>
+                    `;
+                    
+                    // Reload projects list and portfolio
+                    loadProjects();
+                    loadPortfolioItems('all');
+                    
+                    uploadSpinner.classList.remove('active');
+                    uploadBtn.disabled = true;
+                };
+                imageReader.readAsDataURL(selectedImageFile);
+                
+            } catch (error) {
+                uploadResult.innerHTML = `
+                    <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px;">
+                        <i class="fas fa-exclamation-circle"></i> Gagal upload: ${error.message}
+                    </div>
+                `;
+                uploadSpinner.classList.remove('active');
+                uploadBtn.disabled = false;
+            }
+        };
+
+        // ===== DELETE PROJECT =====
+        window.deleteProject = function(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus project ini?')) {
+                // Ambil projects dari localStorage
+                let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+                
+                // Filter out project dengan id yang sesuai
+                projects = projects.filter(project => project.id !== id);
+                
+                // Simpan kembali ke localStorage
+                localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+                
+                // Reload projects list dan portfolio
+                loadProjects();
+                loadPortfolioItems('all');
+                
+                // Tampilkan notifikasi
+                alert('Project berhasil dihapus!');
+            }
+        };
+
+        // Load projects from localStorage untuk admin panel
+        function loadProjects() {
+            const projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+            const projectsList = document.getElementById('projectsList');
+            
+            let html = '<h4><i class="fas fa-folder"></i> Project Tersimpan</h4>';
+            
+            if (projects.length === 0) {
+                html += '<p style="color: #999; text-align: center; padding: 1rem;">Belum ada project</p>';
+            } else {
+                projects.reverse().forEach(project => {
+                    // Tampilkan informasi file jika ada
+                    const fileInfo = project.projectFileName ? 
+                        `<small>File: ${project.projectFileName} (${project.projectFileSize})</small>` : '';
+                    
+                    html += `
+                        <div class="project-item">
+                            <img src="${project.image}" class="project-thumbnail" alt="${project.name}">
+                            <div class="project-info">
+                                <h5>${project.name}</h5>
+                                <p>${project.description.substring(0, 50)}${project.description.length > 50 ? '...' : ''}</p>
+                                <small>${project.date}</small>
+                                ${fileInfo}
+                                <div class="project-badges">
+                                    <span class="badge drive"><i class="fab fa-google-drive"></i> Drive</span>
+                                </div>
+                                <a href="${project.driveLink}" target="_blank" class="drive-link">
+                                    <i class="fab fa-google-drive"></i> Buka Folder Drive
+                                </a>
+                            </div>
+                            <div class="project-actions">
+                                <button onclick="deleteProject(${project.id})" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            projectsList.innerHTML = html;
+        }
+
+        // Load portfolio items dengan gambar dari localStorage
+        function loadPortfolioItems(filter = 'all') {
+            const portfolioGrid = document.getElementById('portfolioGrid');
+            portfolioGrid.innerHTML = '';
+            
+            // Get projects from localStorage
+            const projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+            
+            // Add sample projects jika tidak ada data portfolio
+            if (projects.length === 0) {
+                
+                const filtered = filter === 'all' ? sampleProjects : sampleProjects.filter(p => p.category === filter);
+                filtered.forEach((item, index) => {
+                    addPortfolioItem(portfolioGrid, item, index);
+                });
+            } else {
+                const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+                filtered.forEach((item, index) => {
+                    addPortfolioItem(portfolioGrid, item, index);
+                });
+            }
+        }
+
+        function addPortfolioItem(grid, item, index) {
+            const el = document.createElement('div');
+            el.className = 'portfolio-item';
+            el.setAttribute('data-aos', 'fade-up');
+            el.setAttribute('data-aos-delay', index * 100);
+            
+            // Tampilkan nama file jika ada
+            const fileInfo = item.projectFileName ? 
+                `<small style="display: block; margin-top: 0.5rem; font-size: 0.8rem;">File: ${item.projectFileName}</small>` : '';
+            
+            el.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" class="portfolio-image">
+                <div class="portfolio-overlay">
+                    <h3>${item.name} <span class="drive-badge"><i class="fab fa-google-drive"></i> Drive</span></h3>
+                    <p>${item.description}</p>
+                    ${fileInfo}
+                    <div class="portfolio-links">
+                        <a href="${item.driveLink}" target="_blank"><i class="fab fa-google-drive"></i></a>
+                        <a href="#" onclick="alert('Preview project: ${item.name}'); return false;"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(el);
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                loadPortfolioItems(this.getAttribute('data-filter'));
+            });
+        });
+
+        // Load initial portfolio
+        loadPortfolioItems();
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    let count = 0;
+                    const update = () => {
+                        if (count < target) {
+                            count += Math.ceil(target / 100);
+                            counter.innerText = count;
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    update();
+                });
+                observer.unobserve(entries[0].target);
+            }
+        });
+        observer.observe(document.getElementById('about'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Form submit
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Terima kasih! Pesan Anda terkirim.');
+            this.reset();
+        });
+
+        // Typing effect
+        const profEl = document.querySelector('.profession');
+        const professions = ['Frontend Developer', 'UI/UX Designer', 'Creative Thinker', 'Problem Solver'];
+        let idx = 0, charIdx = 0, isDeleting = false;
+
+        function typeEffect() {
+            const current = professions[idx];
+            if (isDeleting) {
+                profEl.innerHTML = '<i class="fas fa-code"></i> ' + current.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                profEl.innerHTML = '<i class="fas fa-code"></i> ' + current.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            if (!isDeleting && charIdx === current.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 2000);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                idx = (idx + 1) % professions.length;
+                setTimeout(typeEffect, 500);
+            } else {
+                setTimeout(typeEffect, isDeleting ? 50 : 100);
+            }
+        }
+        setTimeout(typeEffect, 2000);
+    </script>
+</body>
+</html>
